@@ -24,19 +24,18 @@ typedef struct{
 }Fila;
 
 
-Fila* fila_criar(); //DONE
-void fila_destruir(Fila* f); //DONE
-void desalocaNo(No* no); //DONE
+Fila* fila_criar();
+void fila_destruir(Fila* f);
+void desalocaNo(No* no);
+Boolean fila_inserir(Fila* f, Tipo elemento);
+Tipo* fila_remover1(Fila* f);
+Boolean fila_remover2(Fila* f, Tipo* endereco);
+Boolean fila_primeiro(Fila* f, Tipo* endereco);
+int fila_tamanho(Fila* f);
+int fila_contem(Fila* f, Tipo elemento);
+void fila_imprimir(Fila* f);
 
-Boolean fila_inserir(Fila* f, Tipo elemento); //DONE
-Tipo* fila_remover1(Fila* f); //DONE
-Boolean fila_remover2(Fila* f, Tipo* endereco); //DONE
-
-Boolean fila_primeiro(Fila* f, Tipo* endereco); //DONE
-int fila_tamanho(Fila* f); //DONE
-int fila_contem(Fila* f, Tipo elemento); //DONE
-void fila_imprimir(Fila* f); //DONE
-
+//IMPLEMENTOS
 Fila* fila_criar(){
     Fila* nova = (Fila*)malloc(sizeof(Fila));
     nova->prim = NULL;
@@ -68,17 +67,24 @@ Boolean fila_inserir(Fila* f, Tipo elemento){
         f->qtde++;
         return true;
     }
-    No* aux;
-    aux = f->prim;
-    while (aux != NULL){
-        if (aux->prox == NULL){
-            aux->prox == novo;
-            f->ult = novo;
-            f->qtde++;
-            return true;
-        }
-        aux = aux->prox;
+    No* aux, *ant;
+    aux = f->prim->prox;
+    ant = f->prim;
+    if(ant->dado <=elemento){
+           novo->prox = ant;
+           f->prim = novo;
+           break;
     }
+    while (aux != NULL){
+       if(aux->dado<=elemento){
+           novo->prox = aux;
+           ant->prox = novo;
+           break;
+       }
+       aux = aux->prox;
+       ant = ant->prox;
+    }
+    return true;
 }
 
 Tipo* fila_remover1(Fila* f){
@@ -87,9 +93,10 @@ Tipo* fila_remover1(Fila* f){
     Tipo* xp;
     No* aux;
     aux = f->prim;
-    f->prim = f->prim->prox;
+    f->prim = aux->prox;
     f->qtde--;
     *xp = aux->dado;
+    aux->prox = NULL;
     free(aux);
     return xp;
 }
@@ -99,9 +106,10 @@ Boolean fila_remover2(Fila* f, Tipo* endereco){
 
     No* aux;
     aux = f->prim;
-    f->prim = f->prim->prox;
+    f->prim = aux->prox;
     f->qtde--;
     *endereco = aux->dado;
+    aux->prox = NULL;
     free(aux);
     return true;
 }

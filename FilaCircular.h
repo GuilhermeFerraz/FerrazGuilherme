@@ -14,19 +14,18 @@ typedef struct{
 }Fila;
 
 
-Fila* fila_criar(); //DONE
-void fila_destruir(Fila* f); //DONE
+Fila* fila_criar();
+void fila_destruir(Fila* f);
 
-Boolean fila_inserir(Fila* f, Tipo elemento); //DONE
-Tipo* fila_duplica(Fila* f); //DONE
-Tipo* fila_remover1(Fila* f); //DONE
-Boolean fila_remover2(Fila* f, Tipo* endereco); //DONE
+Boolean fila_inserir(Fila* f, Tipo elemento);
+Tipo* fila_duplica(Fila* f);
+Tipo* fila_remover1(Fila* f);
+Boolean fila_remover2(Fila* f, Tipo* endereco);
 
 Boolean fila_primeiro(Fila* f, Tipo* endereco);
-int fila_tamanho(Fila* f); //DONE
-int fila_contem(Fila* f, Tipo elemento); //DONE
-void fila_imprimir(Fila* f); //DONE
-
+int fila_tamanho(Fila* f);
+int fila_contem(Fila* f, Tipo elemento);
+void fila_imprimir(Fila* f);
 
 //IMPLEMENTOS
 Fila* fila_criar(){
@@ -47,8 +46,17 @@ Boolean fila_inserir(Fila* f, Tipo elemento){
     if ((f->fim + 1) == f->inicio || ((f->fim + 1 ) % f->tam) == f->inicio){
         f->vetor = fila_duplica(f);
     }
-    f->vetor[f->fim%f->tam] = elemento;
-    f->fim++;
+    int i=f->inicio;
+    while ((i%f->tam) != (f->fim%f->tam)){
+        if (f->vetor[i%f->tam]<=elemento){
+            for (int j = f->fim; (j%f->tam) != (i%f->tam); j++){
+                f->vetor[j%f->tam] = f->vetor[(j%f->tam)-1];
+            }
+            f->fim++;
+            break;
+        }
+        i++;
+    }
     return true;
 }
 
