@@ -11,25 +11,25 @@ typedef struct{
     int tam;
     int inicio;
     int fim;
-}Fila;
+}FilaPrioridade;
 
 
-Fila* fila_criar();
-void fila_destruir(Fila* f);
+FilaPrioridade* fila_criar();
+void fila_destruir(FilaPrioridade* f);
 
-Boolean fila_inserir(Fila* f, Tipo elemento);
-Tipo* fila_duplica(Fila* f);
-Tipo* fila_remover1(Fila* f);
-Boolean fila_remover2(Fila* f, Tipo* endereco);
+Boolean fila_inserir(FilaPrioridade* f, Tipo elemento);
+Tipo* fila_duplica(FilaPrioridade* f);
+Tipo* fila_remover1(FilaPrioridade* f);
+Boolean fila_remover2(FilaPrioridade* f, Tipo* endereco);
 
-Boolean fila_primeiro(Fila* f, Tipo* endereco);
-int fila_tamanho(Fila* f);
-int fila_contem(Fila* f, Tipo elemento);
-void fila_imprimir(Fila* f);
+Boolean fila_primeiro(FilaPrioridade* f, Tipo* endereco);
+int fila_tamanho(FilaPrioridade* f);
+int fila_contem(FilaPrioridade* f, Tipo elemento);
+void fila_imprimir(FilaPrioridade* f);
 
 //IMPLEMENTOS
-Fila* fila_criar(){
-    Fila* nova = (Fila*)malloc(sizeof(Fila));
+FilaPrioridade* fila_criar(){
+    FilaPrioridade* nova = (Fila*)malloc(sizeof(Fila));
     nova->vetor = (Tipo*)calloc(6,sizeof(Tipo));
     nova->tam = 6;
     nova->inicio = 0;
@@ -37,12 +37,12 @@ Fila* fila_criar(){
     return nova;
 }
 
-void fila_destruir(Fila* f){
+void fila_destruir(FilaPrioridade* f){
     free(f->vetor);
     free(f);
 }
 
-Boolean fila_inserir(Fila* f, Tipo elemento){
+Boolean fila_inserir(FilaPrioridade* f, Tipo elemento){
     if ((f->fim + 1) == f->inicio || ((f->fim + 1 ) % f->tam) == f->inicio){
         f->vetor = fila_duplica(f);
     }
@@ -60,7 +60,7 @@ Boolean fila_inserir(Fila* f, Tipo elemento){
     return true;
 }
 
-Tipo* fila_duplica(Fila* f){
+Tipo* fila_duplica(FilaPrioridade* f){
     int x=0;
     Tipo* vetor2 = (Tipo*)calloc(f->tam*2,sizeof(Tipo));
     for (int i=(f->inicio%f->tam); i!=(f->fim%f->tam); i++){
@@ -77,7 +77,7 @@ Tipo* fila_duplica(Fila* f){
     return vetor2;
 }
 
-Tipo* fila_remover1(Fila* f){
+Tipo* fila_remover1(FilaPrioridade* f){
     Tipo* xp = (Tipo*)malloc(sizeof(Tipo));
     if(f->inicio%f->tam == f->fim%f->tam){
         return NULL;
@@ -87,7 +87,7 @@ Tipo* fila_remover1(Fila* f){
     return xp;
 }
 
-Boolean fila_remover2(Fila* f, Tipo* endereco){
+Boolean fila_remover2(FilaPrioridade* f, Tipo* endereco){
     if(f->inicio%f->tam == f->fim%f->tam){
         return false;
     }
@@ -96,7 +96,7 @@ Boolean fila_remover2(Fila* f, Tipo* endereco){
     return true;
 }
 
-Boolean fila_primeiro(Fila* f, Tipo* endereco){
+Boolean fila_primeiro(FilaPrioridade* f, Tipo* endereco){
     if(f->inicio%f->tam == f->fim%f->tam){
         return false;
     }
@@ -104,7 +104,7 @@ Boolean fila_primeiro(Fila* f, Tipo* endereco){
     return true;
 }
 
-int fila_tamanho(Fila* f){
+int fila_tamanho(FilaPrioridade* f){
     Tipo cont=0;
     for (int i = f->inicio%f->tam; (i%(f->tam+1)) != f->fim%f->tam; i++){
         cont++;
@@ -112,14 +112,14 @@ int fila_tamanho(Fila* f){
     return cont;
 }
 
-void fila_imprimir(Fila* f){
+void fila_imprimir(FilaPrioridade* f){
     printf("\n");
     for (int i = f->inicio%f->tam; (i%(f->tam+1)) != f->fim%f->tam; i++){
         printf("%d   ",f->vetor[i%(f->tam+1)]);
     }
 }
 
-int fila_contem(Fila* f, Tipo elemento){
+int fila_contem(FilaPrioridade* f, Tipo elemento){
     for (int i = f->inicio%f->tam; (i%(f->tam+1)) != f->fim%f->tam; i++){
         if (f->vetor[i%(f->tam+1)] == elemento){
             return i%(f->tam);
