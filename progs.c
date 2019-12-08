@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Lista_encadeada.h"
+#include "Lista_Sentinela.h"
 
 int main(){
     int x;
@@ -56,6 +56,5 @@ int main(){
     //DESTOIA LISTA
     lista_destruir(l);
 
-
-
+return 0;
 }
